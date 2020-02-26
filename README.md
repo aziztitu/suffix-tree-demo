@@ -2,15 +2,10 @@
 
 ## I. OVERVIEW
 
-A "trie" is a tree-like data structure whose nodes store the letters of an alphabet. A Suffix tree is simply a compressed "trie" for all suffixes of a given text, and is extremely useful in searching for patterns.
-
-A regular Suffix tree is made of a single string, but in order to store multiple strings, a Generalized Suffix tree is used, which is also discussed in this document.
-
-This document provides the basics of using a Suffix Tree, and the details of building a suffix tree is provided here:
-[Building the Generalized Suffix Tree](buildingASuffixTree.md)
+A "trie" is a tree-like data structure whose nodes store the letters of an alphabet. A ***Suffix tree*** is simply a compressed trie for all suffixes of a given text, and is extremely useful in searching for patterns. It is a space-efficient data structure to store strings
+that allows many kinds of queries to be answered quickly.
 
 ## II. HOW DOES IT WORK?
-
 A Suffix Tree works by storing all the suffixes of the word(s) in a tree like structure.
 
 For example, the suffixes of the word "Banana" are:
@@ -21,21 +16,85 @@ For example, the suffixes of the word "Banana" are:
 - na
 - a
 
-So, the suffixes of the word "Banana" can be respresented in a tree like structure like this:
+Now, the suffixes with common prefixes can be combined:
+- "***ana***na" and "***ana***"
+- "***na***na" and "***na***"
+- "***a***nana" and "***a***"
 
-[Step 1] (images/SuffixTreeBuildStep1.jpg)
+<br/>
 
-This section explains in detail how the data structure works and how someone might go about implementing it in real code. If the student is writing about an existing STL implementation, this section still explains how the data structure works but focuses on the STL API instead of implementation details. This section should most likely be a mixture of natural language as well as short code snippets. Students should feel free to create diagrams if they would illustrate your point well. The tutorial should refer to the example code in the repository where appropriate. In short, the author should do whatever he or she feels is most appropriate to convey the information in an effective and interesting way.
+After combining the suffixes, they look something like this:
 
-Students do not necessarily need to describe time and memory complexity for the data structure (Big-O notation), but that may be helpful in the description depending on your approach. It will likely be difficult to give a complete picture of the data structure without explaining (at least casually) the time complexity of adding, removing, and accessing elements.
+<table>
+<tr>
+<th>Before Combining (A Regular Tree):</th>
+<th>After Combining (A Standard Trie):</th>
+</tr>
+<tr>
+<td><img src="images/SuffixTreeBuildStep1.jpg" width="300px" /></td>
+<td><img src="images/SuffixTreeBuildStep2.jpg" width="300px" />
+</td>
+</tr>
+</table>
+
+<br/>
+
+The next and final step is to reduce the number of unnecessary edges by compressing the nodes. This is done by joining chains of single nodes together, and representing them as one node. It looks something like this:
+
+**After Compressing (A Suffix Trie):**
+
+<img src="images/SuffixTreeBuildStep3.jpg" width="300px" />
+
+Using Ukkonen's algorithm, the entire suffix tree can be built on-line (on-the-fly) in O(n) time complexity where n is the length of the text to be preprocessed.
+
+
+### Pattern Searching:
+
+Now that the suffix tree is built by preprocessing the text, we can search for any pattern in O(m) where m is the length of the pattern.
+
+To search for a pattern on the suffix tree:
+1. Starting from the root node, do the following:
+      - If there is an edge from the current node leading to the current character in the pattern,
+        - Follow that edge to get to the next node
+        - Move to the next character in the pattern.
+      - If not,
+        - The pattern does not exist in the text.
+2. If all the characters in the pattern have been processed, the pattern is found.
+
+<br/>
+
+### Generalized Suffix Tree:
+
+A Generalized Suffix tree is a variation on the regular suffix tree in which suffixes for multiple strings can be stored.
+
+This project includes an implementation of a Generalized Suffix tree that uses Ukkonen's algorithm.
+
+For more information on Generalized Suffix Tree, take a look at: https://www.geeksforgeeks.org/generalized-suffix-tree-1/
 
 ## III. HOW IS THIS DATA STRUCTURE USEFUL?
 
-What sorts of data is this structure commonly used for? Why is it a better solution for certain applications than similar data structures? This section should discuss these generalities but also describe at least one specific example of an appropriate usage (For example, queues are ideal for handling OS input events such as key presses and mouse movements in the order the user makes them).
+Some of the applications of suffix trees include:
+- Searching for large sequences of genomes
+- Text auto-completion
+- Finding longest repeating substring
+- Finding the longest common substring
+- Finding the longest palindrome in a string
+
+There are other approaches to some of these applications, but Suffix trees are an ideal fit as they have a linear time complexity for "on-line" construction as well as for searching.
 
 ## IV. FURTHER READING
 
-Students should cite any sources they used in preparing this tutorial (with inline citations in the text, as appropriate). It is okay to base an implementation on an existing one as long as the student makes significant changes to the code and properly credits the source. This section may also include recommendations for other sources the reader may find helpful. These sources can be URLs or traditional Works Cited entries for published material.
+"On-line Contruction of suffix trees" by Esko Ukkonen: https://www.cs.helsinki.fi/u/ukkonen/SuffixT1withFigs.pdf
 
-It is important to correctly cite the sources used. It is okay to look at other code. It is not okay to turn in other people's code and misrepresent it as your own.
+Ukkonen's Algorithm in plain english: https://stackoverflow.com/questions/9452701/ukkonens-suffix-tree-algorithm-in-plain-english
+
+Suffix tree and it's construction with some psuedo code: http://www.allisons.org/ll/AlgDS/Tree/Suffix/
+
+Pattern searching using Suffix Trees: https://www.geeksforgeeks.org/pattern-searching-using-suffix-tree/
+
+See also:
+
+- Trie: https://www.geeksforgeeks.org/trie-insert-and-search/
+
+- Generalized Suffix Trees: https://www.geeksforgeeks.org/generalized-suffix-tree-1/
 
