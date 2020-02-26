@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            body {
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            #canvas {
+                border: solid 5px;
+            }
+
+            button {
+                background-color: teal;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                color: white;
+                padding: 10px 20px;
+            }
+
+            input, textarea {
+              font-size: 16px;
+            }
+
+            #status {
+                font-size: 24px;
+            }
+        </style>
+    </head>
+
+    <body onload="main()">
+        Text:
+        <br/>
+        <textarea id="words" style="width: 600px; height: 400px"></textarea>
+        <br/>
+        <button id="preprocessBtn" onclick="preprocess()">Preprocess</button>
+        <span style="margin-left: 20px;" id="readyStatus">Ready!</span>
+
+        <br/>
+        <br/>
+        <br/>
+
+        Pattern: <input id="pattern" onkeyup="search()" />
+        <!-- <button onclick="search()">Search</button> -->
+        <br/>
+        <span id="matches"></span>
+        <br/>
+
+        <button id="reset" style="background-color: red;" onclick="reset()">Reset</button>
+    </body>
+
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+        crossorigin="anonymous"
+    ></script>
+
+    <script src="js/suffixTree.js"></script>
+    <script src="js/app.js"></script>
+</html>
