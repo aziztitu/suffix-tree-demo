@@ -2,12 +2,21 @@
 <html lang="en">
     <head>
         <style>
-            body {
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            body,
+            html {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                padding: 0;
+                margin: 0;
             }
 
-            #canvas {
-                border: solid 5px;
+            .header {
+                width: 100%;
+                height: auto;
+                background-color: teal;
+                color: white;
+                text-align: center;
+                font-size: 32px;
+                padding: 20px;
             }
 
             button {
@@ -17,10 +26,12 @@
                 font-size: 16px;
                 color: white;
                 padding: 10px 20px;
+                cursor: pointer;
             }
 
-            input, textarea {
-              font-size: 16px;
+            input,
+            textarea {
+                font-size: 16px;
             }
 
             #status {
@@ -30,24 +41,39 @@
     </head>
 
     <body onload="main()">
-        Text:
-        <br/>
-        <textarea id="words" style="width: 600px; height: 400px"></textarea>
-        <br/>
-        <button id="preprocessBtn" onclick="preprocess()">Preprocess</button>
-        <span style="margin-left: 20px;" id="readyStatus">Ready!</span>
+        <div class="header">
+            Generalized Suffix Tree Demo
+        </div>
 
-        <br/>
-        <br/>
-        <br/>
+        <table cellspacing="20px">
+            <tr>
+                <th style="text-align: left;">Text:</th>
+                <th></th>
+                <th style="width: 300px; text-align: left;">Pattern: &nbsp;<input id="pattern" onkeyup="search()" /></th>
+                <th>
+                    <button
+                        id="reset"
+                        style="background-color: red;"
+                        onclick="reset()"
+                    >
+                        Reset
+                    </button>
+                </th>
+            </tr>
+            <tr>
+                <td style="vertical-align: top;">
+                    <textarea id="words" style="width: 500px; height: 400px"></textarea>
 
-        Pattern: <input id="pattern" onkeyup="search()" />
-        <!-- <button onclick="search()">Search</button> -->
-        <br/>
-        <span id="matches"></span>
-        <br/>
+                    <br />
+                    <br />
 
-        <button id="reset" style="background-color: red;" onclick="reset()">Reset</button>
+                    <button id="preprocessBtn" onclick="preprocess()">Preprocess</button>
+                    <span style="margin-left: 20px;" id="readyStatus">Ready!</span>
+                </td>
+                <td></td>
+                <td style="width: 300px;"><span id="matches"></span></td>
+            </tr>
+        </table>
     </body>
 
     <script

@@ -32,7 +32,7 @@ class SuffixTree {
         str = str.replace(/[^a-zA-Z0-9]/g, '').trim();
 
         if (str.length == 0) {
-          return;
+            return;
         }
 
         //var sep = str[str.length-1];
@@ -162,7 +162,7 @@ class SuffixTree {
             }
 
             let textIndex = selectedTrans[1];
-            for (; textIndex <= selectedTrans[2]; textIndex++) {
+            for (; textIndex <= Math.min(selectedTrans[2], this.text.length - 1); textIndex++) {
                 if (this.text[textIndex] === pattern[curPatternIndex]) {
                     curPatternIndex++;
                     if (curPatternIndex >= pattern.length) {
@@ -186,63 +186,76 @@ class SuffixTree {
             }
         }
 
-        return Array.from(matchedWordIds).map((matchedWordId) =>
-            this.words[matchedWordId].slice(0, this.words[matchedWordId].length - 3)
-        );
+        return Array.from(matchedWordIds)
+            .filter((matchedWordId) => matchedWordId || matchedWordId === 0)
+            .map((matchedWordId) =>
+                this.words[matchedWordId].slice(0, this.words[matchedWordId].indexOf('#'))
+            );
     }
 
     selectWordsUnder(transition) {
-        let curTransitions = [transition];
+        let frontier = [
+            {
+                start: -1,
+                end: -1,
+                prefixCount: 0,
+                transition,
+                root: transition,
+            },
+        ];
 
-        let matchedTransitions = [];
+        var matchedWordIds = new Set();
 
-        while (curTransitions.length > 0) {
-            var curTransition = curTransitions.pop();
-            if (Object.keys(curTransition[0].transitions).length == 0) {
-                matchedTransitions.push(curTransition);
-            } else {
-                for (var key in curTransition[0].transitions) {
-                    /*let keyPos = curNode.transitions[key][1];
-                        if (keyPos > 0 && keyPos < this.text.length) {
-                        if (this.text[keyPos - 1] === '#' && this.text[keyPos + 1] === '#') {
-                            continue;
-                        }
-                    }*/
-                    curTransitions.push(curTransition[0].transitions[key]);
+        while (frontier.length > 0) {
+            var curElement = frontier.pop();
+
+            let textIndex = curElement.transition[1];
+            for (
+                ;
+                textIndex <= Math.min(curElement.transition[2], this.text.length - 1);
+                textIndex++
+            ) {
+                if (this.text[textIndex] === '#') {
+                    if (curElement.start < 0) {
+                        curElement.start = textIndex + 1;
+                    } else {
+                        curElement.end = textIndex;
+
+                        var matchedWordId = +this.text.slice(curElement.start - curElement.prefixCount, curElement.end);
+                        matchedWordIds.add(matchedWordId);
+
+                        console.log({
+                            msg: 'Added',
+                            matchedWordId,
+                            curElement,
+                            textSize: this.text.length,
+                            textSlice: this.text.slice(curElement.start + 1, curElement.end),
+                        });
+
+                        break;
+                    }
+                }
+            }
+
+            if (curElement.end < 0) {
+                for (var key in curElement.transition[0].transitions) {
+                    frontier.push({
+                        start:
+                            curElement.start >= 0
+                                ? curElement.transition[0].transitions[key][1]
+                                : -1,
+                        end: -1,
+                        prefixCount:
+                            curElement.start >= 0
+                                ? curElement.prefixCount + Math.min(curElement.transition[2], this.text.length - 1) -
+                                  curElement.start + 1
+                                : 0,
+                        transition: curElement.transition[0].transitions[key],
+                        root: curElement.root,
+                    });
                 }
             }
         }
-
-        var matchedWordIds = new Set();
-        matchedTransitions
-            .map((transition) => {
-                for (let i = transition[1]; i < this.text.length; i++) {
-                    if (i > 0 && i < this.text.length - 1) {
-                        if (this.text[i - 1] === '#' && this.text[i + 1] === '#') {
-                            return +this.text[i];
-                        }
-                    }
-
-                    if (i < this.text.length - 3) {
-                        if (this.text[i + 1] === '#' && this.text[i + 3] === '#') {
-                            return +this.text[i + 2];
-                        }
-                    }
-
-                    if (this.text[i] === '#' && i > 1 && this.text[i - 2] == '#') {
-                        return +this.text[i - 1];
-                    }
-
-                    if (
-                        this.text[i] === '#' &&
-                        i < this.text.length - 2 &&
-                        this.text[i + 2] == '#'
-                    ) {
-                        return +this.text[i + 1];
-                    }
-                }
-            })
-            .forEach((matchedWordId) => matchedWordIds.add(matchedWordId));
 
         return matchedWordIds;
     }
