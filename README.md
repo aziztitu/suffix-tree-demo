@@ -5,6 +5,8 @@
 A "trie" is a tree-like data structure whose nodes store the letters of an alphabet. A ***Suffix Tree*** is simply a compressed trie for all suffixes of a given text, and is extremely useful in searching for patterns. It is a space-efficient data structure to store strings
 that allows many kinds of queries to be answered quickly.
 
+This repository includes a Javascript implementation/demo of a *Generalized Suffix Tree*. The demo can also be found at: https://projects.aziztitu.com/sau/ai/suffix-tree-demo/
+
 ## II. HOW DOES IT WORK?
 A Suffix Tree works by storing all the suffixes of the word(s) in a tree like structure.
 
