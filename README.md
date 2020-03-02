@@ -84,6 +84,10 @@ Some of the applications of suffix trees include:
 
 There are other approaches to some of these applications, but Suffix trees are an ideal fit as they have a linear time complexity for "on-line" construction as well as for searching.
 
+Other approaches include algorithms such as <a href="https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/" target="_blank">KMP</a>, and <a href="https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/" target="_blank">Boyer-Moore</a> that preprocess the *pattern* to make *the* pattern searching better, whereas the Suffix Tree preprocesses the *text* to make *any* pattern searching better.
+
+Also since Suffix Tree is more general, you can perform a wide variety of queries on it. The downside however is that it uses more disk space and takes a little longer to preprocess the text.
+
 ## IV. FURTHER READING
 
 "On-line Contruction of suffix trees" by Esko Ukkonen: https://www.cs.helsinki.fi/u/ukkonen/SuffixT1withFigs.pdf
