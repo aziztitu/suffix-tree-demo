@@ -2,7 +2,7 @@
 
 ## I. OVERVIEW
 
-A "trie" is a tree-like data structure whose nodes store the letters of an alphabet. A ***Suffix Tree*** is simply a compressed trie for all suffixes of a given text, and is extremely useful in searching for patterns. It is a space-efficient data structure to store strings
+A "*trie*" is a tree-like data structure whose nodes store the letters of an alphabet. A ***Suffix Tree*** is simply a *compressed trie* for all suffixes of a given text, and is extremely useful in searching for patterns. It is a space-efficient data structure to store strings
 that allows many kinds of queries to be answered quickly.
 
 This repository includes a Javascript implementation/demo of a *Generalized Suffix Tree*. The demo can also be found at: https://projects.aziztitu.com/sau/ai/suffix-tree-demo/
@@ -47,7 +47,9 @@ The next and final step is to reduce the number of unnecessary edges by compress
 
 <img src="images/SuffixTreeBuildStep3.jpg" width="300px" />
 
-Using Ukkonen's algorithm, the entire suffix tree can be built on-line (on-the-fly) in O(n) time complexity where n is the length of the text to be preprocessed.
+Constructing the Suffix Tree in code can get very complex, and a *naive* implementation for generating a suffix tree would have O(n<sup>2</sup>) or even O(n<sup>3</sup>) time complexity.
+
+But using [Ukkonen's algorithm](https://www.cs.helsinki.fi/u/ukkonen/SuffixT1withFigs.pdf), the entire suffix tree can be built on-line (on-the-fly) in O(n) time complexity where n is the length of the text to be preprocessed.
 
 
 ### Pattern Searching:
@@ -84,7 +86,7 @@ Some of the applications of suffix trees include:
 
 There are other approaches to some of these applications, but Suffix trees are an ideal fit as they have a linear time complexity for "on-line" construction as well as for searching.
 
-Other approaches include algorithms such as <a href="https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/" target="_blank">KMP</a>, and <a href="https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/" target="_blank">Boyer-Moore</a> that preprocess the *pattern* to make *the* pattern searching better, whereas the Suffix Tree preprocesses the *text* to make *any* pattern searching better.
+Other approaches include algorithms such as [KMP](https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/), and [Boyer-Moore](https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/) that preprocess the *pattern* to make *the* pattern searching better, whereas the Suffix Tree preprocesses the *text* to make *any* pattern searching better.
 
 Also since Suffix Tree is more general, you can perform a wide variety of queries on it. The downside however is that it uses more disk space and takes a little longer to preprocess the text.
 
@@ -105,4 +107,7 @@ See also:
 - Trie: https://www.geeksforgeeks.org/trie-insert-and-search/
 
 - Generalized Suffix Trees: https://www.geeksforgeeks.org/generalized-suffix-tree-1/
+
+- KMP: https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/
+- Boyer-Moore: https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/
 
